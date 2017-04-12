@@ -9,8 +9,10 @@
   "author": "Kaustubh Vinzanekar",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.3.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
-    "oauth": "^0.9.15"
+    "oauth": "^0.9.15",
+    "querystring": "^0.2.0"
   }
 }
