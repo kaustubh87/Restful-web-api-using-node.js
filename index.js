@@ -72,24 +72,25 @@ app.get('/search', function(req,res){
 
 //List all friends
 
-app.get('/friends', function(req,res){
-   
-    if(!req.cookies.access_token || !req.cookies.access_token_secret){
-        return res.sendStatus(401);
-    }
-    
-    var url = "https://api.twitter.com/1.1/friends/list.json";
-    if(req.query.cursor){
-        url += '?' + querystring.stringify({cursor: req.query.cursor});
-    }
-    
-    authenticator.get(url, req.cookies.acces_token, req.cookies.access_token_secret, function(err, data){
-       if(err){
-           return res.status(400).send(err);
-       } 
-        
-        res.send(data);
-    });
+app.get('/friends', function(req, res) {
+	if (!req.cookies.access_token || !req.cookies.access_token_secret) {
+		return res.sendStatus(401);
+	}
+
+	var url = 'https://api.twitter.com/1.1/friends/list.json';
+	if (req.query.cursor) {
+		url += '?' + querystring.stringify({ cursor: req.query.cursor });
+	}
+
+	authenticator.get(url,
+		req.cookies.access_token, req.cookies.access_token_secret,
+		function(error, data) {
+			if (error) {
+				return res.status(400).send(error);
+			}
+
+			res.send(data);
+		});
 });
 
 app.listen(config.port, function(req,res){
