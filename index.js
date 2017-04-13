@@ -93,6 +93,45 @@ app.get('/friends', function(req, res) {
 		});
 });
 
+//Get all friends
+
+app.get('/all-friends', function(req,res){
+   async.waterfall([
+       function(cb){
+           var cursor = -1;
+           var ids = [];
+           
+           //Get ids by traversing the cursored collection
+           
+           async.whilst(function(){
+               return cursor!=0;
+           },
+                        function(cb){
+               authenticator.get('https://api.twitter.com/1.1/friends/ids.json?' +querystring.stringify({user_id: req.cookies.twitter_id, cursor: cursor}),
+                            req.cookies.access_token, req.cookies.access_token_secret, function(err, data){
+                   if (err){
+                       return res.status(400).send(err);
+                   }
+                   
+                   data = JSON.parse(data);
+                   cursor = data.next_cursor_str;
+                   id = ids.concat(data.ids);
+                   
+                   cb();
+               });
+           }, function(err){
+               if(err){
+                   return res.status(500).send(err)
+               }
+               cb(null, ids);
+           });
+       },
+       
+       //Get friends data
+       
+   ]) 
+});
+
 app.listen(config.port, function(req,res){
    console.log('Express started at port no ' +config.port); 
 });
