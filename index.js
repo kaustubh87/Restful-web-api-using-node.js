@@ -127,7 +127,7 @@ app.get('/all-friends', function(req,res){
            });
        },
        
-       //Get friends data
+       //Get friends data from twitter
        
    ]) 
 });
