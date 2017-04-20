@@ -128,6 +128,14 @@ app.get('/all-friends', function(req,res){
        },
        
        //Get friends data from twitter
+       function(ids,cb){
+           var greatHundredids = function(i){
+               return ids.slice(100*i, Math.min(ids.length, 100*(i+1)));
+           }
+           
+           var requestsNeeded = Math.ceil(ids.length/100);
+           
+       }
        
    ]) 
 });
